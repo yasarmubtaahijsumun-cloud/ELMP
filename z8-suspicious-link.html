@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="mfe">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suspicious Link & PIN Safety – Training</title>
+
+<style>
+  body { font-family: Arial, sans-serif; background: #ededed; margin: 0; }
+  .container { max-width: 420px; margin: 30px auto; background: #fff; padding: 15px; border-radius: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+  .screen { display: none; text-align: center; animation: fade 0.4s ease-in; }
+  .screen.active { display: block; }
+  .phone { border: 8px solid #000; border-radius: 25px; background: #f9f9f9; padding: 12px; }
+  .brand { background: #005bbb; color: #fff; padding: 10px; font-weight: bold; border-radius: 12px 12px 0 0; }
+  button { padding: 14px 22px; margin: 10px; font-size: 16px; border-radius: 10px; border: none; background: #005bbb; color: #fff; cursor: pointer; }
+  button:hover { background: #003f82; }
+  .danger { background: #d93025; }
+  .safe { background: #1e8e3e; }
+  .warning { color: #d93025; font-weight: bold; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Screen 1 -->
+  <div class="screen active" id="s1">
+    <h2>Scenario: Message Inatandi</h2>
+    <p>Ou gagn enn SMS ou WhatsApp lor ou mobile.</p>
+    <button onclick="go('s2')">Get Message</button>
+  </div>
+
+  <!-- Screen 2: Suspicious Message -->
+  <div class="screen" id="s2">
+    <div class="phone">
+      <div class="brand">Labank Alert</div>
+      <p>⚠️ To kont ena problem.</p>
+      <p>Klik lor link isi pou verify.</p>
+      <p class="warning">www.bank-secure-check.com</p>
+    </div>
+    <button onclick="go('s3')">Ki ou fer?</button>
+  </div>
+
+  <!-- Screen 3: Choice -->
+  <div class="screen" id="s3">
+    <h3>Ki ou bizin fer?</h3>
+    <button class="danger" onclick="go('clicked')">Klik lor Link</button>
+    <button class="safe" onclick="go('ignored')">Ignore & Verify</button>
+  </div>
+
+  <!-- Clicked Link -->
+  <div class="screen" id="clicked">
+    <h2>❌ DANGER</h2>
+    <p>Sa link-la li enn frod.</p>
+    <p class="warning">Zot kapav vole to PIN, OTP ek larzan.</p>
+    <button onclick="go('lesson1')">Get Lasanble</button>
+  </div>
+
+  <!-- Ignored Link -->
+  <div class="screen" id="ignored">
+    <h2>✅ Bon Desizion</h2>
+    <p>Ou pa finn klik lor link suspek.</p>
+    <p>Ou finn protez ou kont.</p>
+    <button onclick="go('pinIntro')">Kontinie</button>
+  </div>
+
+  <!-- PIN Intro -->
+  <div class="screen" id="pinIntro">
+    <h3>Maintenant: PIN Sécurité</h3>
+    <p>PIN protez ou larzan.</p>
+    <p>Me pa tou PIN bon.</p>
+    <button onclick="go('pinChoice')">Swazir PIN</button>
+  </div>
+
+  <!-- PIN Choice -->
+  <div class="screen" id="pinChoice">
+    <h3>Ki PIN pli sekirize?</h3>
+    <button class="danger" onclick="go('weakPin')">1234</button>
+    <button class="safe" onclick="go('strongPin')">584927</button>
+  </div>
+
+  <!-- Weak PIN -->
+  <div class="screen" id="weakPin">
+    <h2>❌ PIN Feb</h2>
+    <p>1234 facile pou deviné.</p>
+    <p class="warning">Scammer krwar sa an premier.</p>
+    <button onclick="go('lesson2')">Li bon ou konne</button>
+  </div>
+
+  <!-- Strong PIN -->
+  <div class="screen" id="strongPin">
+    <h2>✅ PIN Solid</h2>
+    <p>PIN difficile pou deviné.</p>
+    <p>Li protez ou kont ek larzan.</p>
+    <button onclick="go('lesson2')">Kontinie</button>
+  </div>
+
+  <!-- Lesson 1 -->
+  <div class="screen" id="lesson1">
+    <h2>LESION LOR LINK</h2>
+    <p>❌ Pa klik lor link suspek</p>
+    <p>🏦 Labank pa demande PIN par message</p>
+    <button onclick="go('pinIntro')">Kontinie</button>
+  </div>
+
+  <!-- Lesson 2 -->
+  <div class="screen" id="lesson2">
+    <h2>LESION FINAL</h2>
+    <p>🔗 Doute = Pa klik</p>
+    <p>🔐 Toultan met enn PIN solid</p>
+    <p>🙅‍♂️ Pa partaz PIN avek personn</p>
+    <button onclick="go('s1')">Rekoumans Training</button>
+  </div>
+
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="mfe">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scan QR Code – Training</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #eaeaea;
+    margin: 0;
+  }
+
+  .container {
+    max-width: 420px;
+    margin: 30px auto;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 18px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  }
+
+  .screen { display: none; text-align: center; }
+  .screen.active { display: block; }
+
+  .phone {
+    border: 8px solid #000;
+    border-radius: 25px;
+    padding: 10px;
+    background: #f9f9f9;
+  }
+
+  .brand {
+    background: #005bbb;
+    color: white;
+    padding: 8px;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+  }
+
+  .qr-box {
+    border: 2px dashed #333;
+    padding: 10px;
+    margin: 15px auto;
+    width: 220px;
+  }
+
+  canvas { margin-top: 10px; }
+
+  input {
+    padding: 12px;
+    font-size: 18px;
+    width: 80%;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  button {
+    padding: 12px 20px;
+    margin: 8px;
+    border-radius: 8px;
+    border: none;
+    background-color: #005bbb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+
+  .wrong { background-color: #d93025; }
+
+  /* Animations */
+  .pulse { animation: pulse 2s infinite; }
+  .shake { animation: shake 0.5s infinite; background: #ffe6e6; }
+
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.03); }
+    100% { transform: scale(1); }
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    50% { transform: translateX(4px); }
+    75% { transform: translateX(-4px); }
+    100% { transform: translateX(0); }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Screen 1 -->
+  <div class="screen active" id="s1">
+    <h2>Scan QR Code pou faire Paiement</h2>
+    <button onclick="go('s2')">Kontinie</button>
+  </div>
+
+  <!-- Choose QR -->
+  <div class="screen" id="s2">
+    <h3>Swazir QR pou scan</h3>
+    <button onclick="go('goodQR')">Scan QR</button>
+    <button class="wrong" onclick="go('badQR')">QR Suspect</button>
+  </div>
+
+  <!-- GOOD QR -->
+  <div class="screen" id="goodQR">
+    <div class="phone pulse">
+      <div class="brand">MCB Juice</div>
+
+      <div class="qr-box">
+        <p><strong>Merchent: Continent</strong></p>
+        <canvas id="goodQrCanvas"></canvas>
+      </div>
+
+      <p>Scan QR Code marsan</p>
+    </div>
+
+    <button onclick="go('amount')">Scan QR</button>
+  </div>
+
+  <!-- ENTER AMOUNT -->
+  <div class="screen" id="amount">
+    <div class="phone">
+      <div class="brand">MCB Juice</div>
+
+      <h3>Antre Montan</h3>
+      <input type="number" placeholder="Rs 0.00">
+      <p>Ou mem bizin met montan</p>
+    </div>
+
+    <button onclick="go('success')">Valide Paiement</button>
+  </div>
+
+  <!-- BAD QR -->
+  <div class="screen" id="badQR">
+    <div class="phone shake">
+      <div class="brand">MCB Juices</div>
+
+      <div class="qr-box">
+        <p><strong>QR DOUTE</strong></p>
+        <canvas id="badQrCanvas"></canvas>
+      </div>
+
+      <p><strong>QR la parait in fr ar lamai</strong></p>
+      <p><strong>Pa scan sa QR-la sinon taC</strong></p>
+    </div>
+
+    <button onclick="go('s2')">Retour</button>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="screen" id="success">
+    <h2>Bravo 🎉</h2>
+    <p>Ou finn scan bon QR ek met bon montan oumem.</p>
+    <p>Sa li enn bon pratik sekirite.</p>
+    <button onclick="go('s1')">Rekoumans Training</button>
+  </div>
+
+</div>
+
+<script>
+  function go(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  function drawCleanQR(canvasId) {
+    const c = document.getElementById(canvasId);
+    const ctx = c.getContext("2d");
+    c.width = 160; c.height = 160;
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0,0,160,160);
+    ctx.fillStyle = "#000";
+    for (let y=0;y<160;y+=16){
+      for (let x=0;x<160;x+=16){
+        if(Math.random()>0.45){
+          ctx.fillRect(x,y,14,14);
+        }
+      }
+    }
+  }
+
+  function drawHandmadeQR(canvasId) {
+    const c = document.getElementById(canvasId);
+    const ctx = c.getContext("2d");
+    c.width = 160; c.height = 160;
+    ctx.fillStyle = "#fff3cd";
+    ctx.fillRect(0,0,160,160);
+    ctx.fillStyle = "#000";
+    for(let i=0;i<60;i++){
+      ctx.fillRect(Math.random()*140,Math.random()*140,6+Math.random()*10,6+Math.random()*10);
+    }
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(10,10);
+    ctx.lineTo(150,150);
+    ctx.stroke();
+    ctx.fillStyle = "red";
+    ctx.font = "bold 12px Comic Sans MS";
+    ctx.fillText("PAY HERE", 35, 80);
+    ctx.fillText("URGENT!", 45, 100);
+  }
+
+  drawCleanQR("goodQrCanvas");
+  drawHandmadeQR("badQrCanvas");
+</script>
+
+</body>
+</html>

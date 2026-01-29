@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="mfe">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payment bill elecktrisite </title>
+
+<style>
+body{
+  background:#e6e6e6;
+  font-family: Arial, sans-serif;
+}
+.phone{
+  width:360px;
+  margin:30px auto;
+  background:#fff;
+  border:6px solid #000;
+  border-radius:25px;
+  padding:15px;
+}
+.brand{
+  background:#005bbb;
+  color:#fff;
+  text-align:center;
+  padding:10px;
+  font-weight:bold;
+  border-radius:15px 15px 0 0;
+}
+h3{text-align:center;}
+.box{
+  background:#f3f3f3;
+  padding:10px;
+  border-radius:8px;
+  margin:8px 0;
+  text-align:center;
+  font-size:17px;
+}
+input, select{
+  width:100%;
+  padding:12px;
+  font-size:16px;
+  margin-top:10px;
+  border-radius:6px;
+  border:1px solid #ccc;
+}
+button{
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  margin-top:10px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+.danger{background:#d93025;color:#fff;}
+.safe{background:#1e8e3e;color:#fff;}
+.hidden{display:none;}
+.warning{color:#d93025;font-weight:bold;text-align:center;}
+.success{color:#1e8e3e;font-weight:bold;text-align:center;}
+</style>
+</head>
+
+<body>
+
+<!-- SCREEN 1 – Select Merchant + Enter Amount -->
+<div class="phone" id="screen1">
+  <div class="brand">MCB Juice</div>
+
+  <h3>Payment bill electrisite</h3>
+
+  <div class="box">
+    Select Merchant:
+    <select id="merchantSelect">
+      <option value="">-- Swazir Merchant --</option>
+      <option value="CEB">CEB Mauritius (Correct)</option>
+      <option value="FakeMerchant">CBE Mauritius (Incorrect)</option>
+    </select>
+  </div>
+
+  <div class="box">
+    Enter Amount:
+    <input type="number" id="amount" placeholder="Ex: 1000">
+  </div>
+
+  <button class="danger" onclick="payBill()">Confirm Payment</button>
+</div>
+
+<!-- SCREEN 2 – WRONG AMOUNT WITH CORRECT MERCHANT -->
+<div class="phone hidden" id="screenWrongAmount">
+  <div class="brand">ALERT</div>
+  <h3>❌ MONTAN PA BON</h3>
+  <p class="warning">Ou finn met enn montan ki pa korek.</p>
+  <div class="box">
+    Montan : Rs <span id="wrongAmt"></span>
+  </div>
+  <p>Konsekans:</p>
+  <ul>
+    <li>Bill pa ferme</li>
+    <li>Kapav gagne penalite</li>
+    <li>Ou bizin repayer</li>
+  </ul>
+  <button onclick="restart()">Rekoumans</button>
+</div>
+
+<!-- SCREEN 3 – WRONG MERCHANT -->
+<div class="phone hidden" id="screenWrongMerchant">
+  <div class="brand">ALERT</div>
+  <h3>❌ MERCHANT ERER</h3>
+  <p class="warning">Ou finn swazir enn merchant ki pa korek!</p>
+  <p>Konsekans posib:</p>
+  <ul>
+    <li>Larzan kapav ale dan kont ki pa korek</li>
+    <li>Bill pa ferme</li>
+    <li>Risk scam ou pirat</li>
+  </ul>
+  <button onclick="restart()">Rekoumans</button>
+</div>
+
+<!-- SCREEN 4 – CORRECT MERCHANT + CORRECT AMOUNT -->
+<div class="phone hidden" id="screenCorrect">
+  <div class="brand">SUCCESS</div>
+  <h3>✅ PAIEMENT REUSI</h3>
+  <p class="success">Ou finn peye bon montan ek bon merchant.</p>
+  <div class="box">
+    Merchant: CEB Mauritius
+  </div>
+  <div class="box">
+    Montan peye: Rs 1,000
+  </div>
+  <p>Bill finn ferme. Pa bezwen repayer.</p>
+  <button onclick="restart()">Retour Menu</button>
+</div>
+
+<script>
+function payBill(){
+  var merchant = document.getElementById("merchantSelect").value;
+  var amount = parseFloat(document.getElementById("amount").value);
+
+  if(merchant == ""){
+    alert("Swazir enn merchant s'il vous plaît");
+    return;
+  }
+
+  if(merchant=="CEB"){
+    if(amount !== 1000){
+      document.getElementById("wrongAmt").innerText = amount;
+      document.getElementById("screen1").style.display="none";
+      document.getElementById("screenWrongAmount").style.display="block";
+    } else {
+      document.getElementById("screen1").style.display="none";
+      document.getElementById("screenCorrect").style.display="block";
+    }
+  } else {
+    // Wrong merchant
+    document.getElementById("screen1").style.display="none";
+    document.getElementById("screenWrongMerchant").style.display="block";
+  }
+}
+
+function restart(){
+  document.getElementById("screen1").style.display="block";
+  document.getElementById("screenWrongAmount").style.display="none";
+  document.getElementById("screenWrongMerchant").style.display="none";
+  document.getElementById("screenCorrect").style.display="none";
+  document.getElementById("amount").value="";
+  document.getElementById("merchantSelect").value="";
+}
+</script>
+
+</body>
+</html>

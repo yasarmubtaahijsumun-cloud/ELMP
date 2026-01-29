@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="mfe">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OTP Partaz – Training</title>
+
+<style>
+  body { font-family: Arial, sans-serif; background: #ececec; margin: 0; }
+  .container { max-width: 420px; margin: 30px auto; background: #fff; padding: 15px; border-radius: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+  .screen { display: none; text-align: center; animation: fade 0.5s ease-in; }
+  .screen.active { display: block; }
+  .phone { border: 8px solid #000; border-radius: 25px; background: #f9f9f9; padding: 12px; }
+  .brand { background: #005bbb; color: white; padding: 10px; font-weight: bold; border-radius: 12px 12px 0 0; }
+  button { padding: 14px 22px; margin: 10px; font-size: 16px; border-radius: 10px; border: none; background: #005bbb; color: #fff; cursor: pointer; }
+  button:hover { background: #003f82; }
+  .danger { background: #d93025; }
+  .safe { background: #1e8e3e; }
+  .otp-box { font-size: 28px; letter-spacing: 5px; font-weight: bold; background: #fff; padding: 10px; border-radius: 8px; border: 2px dashed #999; display: inline-block; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Screen 1 -->
+  <div class="screen active" id="s1">
+    <h2>One Time Password(OTP)</h2>
+    <p>Ou pe fer enn paiement lor ou mobile.</p>
+    <button onclick="go('s2')">Kontinie</button>
+  </div>
+
+  <!-- Screen 2: OTP Received -->
+  <div class="screen" id="s2">
+    <div class="phone">
+      <div class="brand">MCB Juice</div>
+      <h3>Ou finn gagn enn OTP</h3>
+      <p class="otp-box">7 4 9 2 1 6</p>
+      <p>⚠️ Pa partaz sa code-la avek personn</p>
+    </div>
+    <button onclick="go('s3')">Kontinie</button>
+  </div>
+
+  <!-- Screen 3: Fraudster Call -->
+  <div class="screen" id="s3">
+    <h3>📞 Enn dimounn in kall ou</h3>
+    <p>“bnzr,mo 1 officier labank,ou kont ena risk bloke ek ou kass pu gelee. Ou bzn Donn mwa OTP pou verify ou kont sinon pas blame nu apre.”</p>
+    <button class="danger" onclick="go('wrong1')">Partaz OTP</button>
+    <button class="safe" onclick="go('safe1')">pa tini dialogue,Coupe toutesuite </button>
+  </div>
+
+  <!-- Wrong Path -->
+  <div class="screen" id="wrong1">
+    <h2>❌ MOVE DESIZION</h2>
+    <p>Ou finn partaz ou OTP.</p>
+    <p>Scammer finn pran kontrol ou kont.</p>
+    <p><strong>Larzan finn ale.</strong></p>
+    <button onclick="go('lesson')">Li bon ou Konne</button>
+  </div>
+
+  <!-- Safe Path -->
+  <div class="screen" id="safe1">
+    <h2>✅ BON DESIZION</h2>
+    <p>Ou pa finn partaz OTP.</p>
+    <p>Ou kont res proteze.</p>
+    <button onclick="go('lesson')">Li bon ou Konne</button>
+  </div>
+
+  <!-- Lesson Screen -->
+  <div class="screen" id="lesson">
+    <h2>LESON INPORTAN</h2>
+    <p>🔒 OTP se kouma ou PIN</p>
+    <p>❌ Jamais partaz li, mem avek “labank”</p>
+    <p>📞 Labank JAMAIS demande OTP</p>
+    <button onclick="go('s1')">Rekoumans Training</button>
+  </div>
+
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
+
+</body>
+</html>

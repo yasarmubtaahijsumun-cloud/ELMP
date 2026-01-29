@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="mfe">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gid Sekirite Paiement Online – 2FA</title>
+
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f2f2f2;
+    margin: 0;
+    padding: 0;
+  }
+  .container {
+    max-width: 420px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .screen {
+    display: none;
+    text-align: center;
+  }
+  .screen.active {
+    display: block;
+  }
+  button {
+    padding: 12px 22px;
+    margin: 10px;
+    border-radius: 8px;
+    border: none;
+    background-color: #005bbb;
+    color: #ffffff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #003f82;
+  }
+  .wrong {
+    background-color: #d93025;
+  }
+  .qr-box {
+    border: 2px dashed #333;
+    padding: 15px;
+    margin: 15px auto;
+    width: 200px;
+  }
+  canvas {
+    margin-top: 10px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Screen 1 -->
+  <div class="screen active" id="s1">
+    <h2>Senaryo 1: Aktiv 2FA</h2>
+    <p>Ouver ou application lor ou portab (MCB Juice ousa MyT Money)</p>
+    <button onclick="go('s2')">Coumanser</button>
+  </div>
+
+  <!-- Screen 2 -->
+  <div class="screen" id="s2">
+    <h2>Al dan Sekirite</h2>
+    <p>Al dan <strong>Settings → Sekirite</strong></p>
+    <button onclick="go('s3')">Ensuite</button>
+    <button class="wrong" onclick="go('wrong1')">Sortie</button>
+  </div>
+
+  <!-- Wrong Path -->
+  <div class="screen" id="wrong1">
+    <h2>Atansion ⚠️</h2>
+    <p>Ou finn krwar sa option-la bon, mai non.</p>
+    <p>Retourne arriere ek click lor button ensuite.</p>
+    <button onclick="go('s2')">Retour</button>
+  </div>
+
+  <!-- Screen 3 -->
+  <div class="screen" id="s3">
+    <h2>Aktiv Two-Factor Authentication</h2>
+    <p>Application pou demann ou pou <strong>scan enn QR Code</strong></p>
+
+    <div class="qr-box">
+      <p><strong>QR Code </strong></p>
+      <canvas id="qrCanvas"></canvas>
+    </div>
+
+    <p>Scan sa QR Code-la ar ou telephone</p>
+    <button onclick="go('s4')">Mo finn scan</button>
+  </div>
+
+  <!-- Screen 4 -->
+  <div class="screen" id="s4">
+    <h2>Bravo 🎉</h2>
+    <p>Two-Factor Authentication finn aktiv avek sikse.</p>
+    <p>Aster, sak fwa ou fer paiement, ou pou gagn enn verification anplis ki pu aid ou fr payment online en toute sekirite.</p>
+    <button onclick="go('s1')">Rekoumans Training</button>
+  </div>
+
+</div>
+
+<script>
+  function go(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  /* Simple bogus QR generator (visual only) */
+  const canvas = document.getElementById("qrCanvas");
+  const ctx = canvas.getContext("2d");
+  canvas.width = 160;
+  canvas.height = 160;
+
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, 160, 160);
+  ctx.fillStyle = "#000";
+
+  for (let y = 0; y < 160; y += 20) {
+    for (let x = 0; x < 160; x += 20) {
+      if (Math.random() > 0.5) {
+        ctx.fillRect(x, y, 18, 18);
+      }
+    }
+  }
+
+  ctx.fillStyle = "red";
+  ctx.font = "12px Arial";
+  ctx.fillText("TRAINING QR", 30, 155);
+</script>
+
+</body>
+</html>

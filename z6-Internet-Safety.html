@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="mfe">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Internet & Network Safety – Training</title>
+
+<style>
+  body { font-family: Arial, sans-serif; background: #ededed; margin: 0; }
+  .container { max-width: 420px; margin: 30px auto; background: #fff; padding: 15px; border-radius: 20px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); }
+  .screen { display: none; text-align: center; animation: fade 0.4s ease-in; }
+  .screen.active { display: block; }
+  .phone { border: 8px solid #000; border-radius: 25px; background: #f9f9f9; padding: 12px; }
+  .brand { background: #005bbb; color: #fff; padding: 10px; font-weight: bold; border-radius: 12px 12px 0 0; }
+  button { padding: 14px 22px; margin: 10px; font-size: 16px; border-radius: 10px; border: none; background: #005bbb; color: #fff; cursor: pointer; }
+  button:hover { background: #003f82; }
+  .danger { background: #d93025; }
+  .safe { background: #1e8e3e; }
+  .warning { color: #d93025; font-weight: bold; }
+  @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Screen 1 -->
+  <div class="screen active" id="s1">
+    <h2>Scenario: Paiement Pa Pase</h2>
+    <p>Ou pe fer enn paiement lor ou mobile.</p>
+    <button onclick="go('s2')">Kontinie</button>
+  </div>
+
+  <!-- Screen 2: Payment Fail -->
+  <div class="screen" id="s2">
+    <div class="phone">
+      <div class="brand">MCB Juice</div>
+      <h3>❌ Paiement Fail</h3>
+      <p>Raison: Pena internet</p>
+      <p class="warning">Pa re-essayez plizir fwa san internet</p>
+    </div>
+    <button onclick="go('s3')">Kifer Internet Importan?</button>
+  </div>
+
+  <!-- Screen 3: Why Internet -->
+  <div class="screen" id="s3">
+    <h3>Kifer ou bizin internet?</h3>
+    <p>🔹 Pou fer paiement</p>
+    <p>🔹 Pou protez ou larzan</p>
+    <p>🔹 Pou verifie si ena transaction pa krk</p>
+    <button onclick="go('s4')">Connect Internet</button>
+  </div>
+
+  <!-- Screen 4: Network Choices -->
+  <div class="screen" id="s4">
+    <h3>Swazir enn Network</h3>
+    <button class="safe" onclick="go('safeNet')">Wi‑Fi Lakaz</button>
+    <button class="safe" onclick="go('safeNet')">Mobile Data/Package (4G / 5G)</button>
+    <button class="danger" onclick="go('unsafeNet')">Public Wi‑Fi-Gratuit</button>
+  </div>
+
+  <!-- Safe Network -->
+  <div class="screen" id="safeNet">
+    <h2>✅ Connection Sekirize</h2>
+    <p>Sa Connection la proteze par 1 mot‑de‑pass.</p>
+    <p>Larzan ek ou ban done res an sekirite.</p>
+    <button onclick="go('retry')">Re‑essayez Paiement</button>
+  </div>
+
+  <!-- Unsafe Network -->
+  <div class="screen" id="unsafeNet">
+    <h2>⚠️ Connection Danzere</h2>
+    <p>Wi‑Fi piblik pa sekirize.</p>
+    <p class="warning">Scammer kapav get ou PIN, OTP, ek done.</p>
+    <button onclick="go('implications')">Get Risk</button>
+  </div>
+
+  <!-- Implications -->
+  <div class="screen" id="implications">
+    <h3>Implikasion si ou konekte:</h3>
+    <p>❌ OTP kapav vole</p>
+    <p>❌ Kont kapav hack</p>
+    <p>❌ Larzan kapav disparet</p>
+    <button onclick="go('lesson')">Get Lasanble</button>
+  </div>
+
+  <!-- Retry Payment -->
+  <div class="screen" id="retry">
+    <div class="phone">
+      <div class="brand">MCB Juice</div>
+      <h3>✅ Internet OK</h3>
+      <p>Paiement finn pase avek sikse.</p>
+    </div>
+    <button onclick="go('lesson')">Termine</button>
+  </div>
+
+  <!-- Lesson -->
+  <div class="screen" id="lesson">
+    <h2>LESION INPORTAN</h2>
+    <p>📶 Toultan verify internet avan paiement</p>
+    <p>🏠 Prefer Wi‑Fi lakaz ou mobile data</p>
+    <p>❌ Pa servi Wi‑Fi piblik pou labank</p>
+    <button onclick="go('s1')">Rekoumans Training</button>
+  </div>
+
+</div>
+
+<script>
+function go(id){
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
+
+</body>
+</html>

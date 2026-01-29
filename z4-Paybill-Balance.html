@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="mfe">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payer Bill + Balance – Training</title>
+
+<style>
+  body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; }
+  .container { max-width: 420px; margin: 30px auto; background: #fff; padding: 15px; border-radius: 18px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+  .screen { display: none; text-align: center; }
+  .screen.active { display: block; }
+  .phone { border: 8px solid #000; border-radius: 25px; padding: 10px; background: #f9f9f9; }
+  .brand { padding: 8px; font-weight: bold; color: white; border-radius: 10px 10px 0 0; }
+  .mcb { background: #005bbb; }
+  .myt { background: #e60000; }
+  select, input { padding: 12px; font-size: 18px; width: 80%; margin: 10px 0; text-align: center; }
+  button { padding: 12px 20px; margin: 8px; border-radius: 8px; border: none; background-color: #005bbb; color: white; font-size: 16px; cursor: pointer; }
+  button:hover { background-color: #003f82; }
+  .wrong { background-color: #d93025; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- Screen 1: Select App -->
+  <div class="screen active" id="s1">
+    <h2>Payer Bill – Training</h2>
+    <p>Swazir ou application labank</p>
+    <button onclick="go('s2')">MCB Juice</button>
+    <button onclick="go('s3')">MyT Money</button>
+  </div>
+
+  <!-- Screen 2: MCB Juice Main -->
+  <div class="screen" id="s2">
+    <div class="phone">
+      <div class="brand mcb">MCB Juice</div>
+      <h3>Menu</h3>
+      <button onclick="go('checkBalanceMCB')">Check Balance</button>
+      <button onclick="go('mcbBiller')">Pay Bills</button>
+    </div>
+  </div>
+
+  <!-- Screen 3: MyT Money Main -->
+  <div class="screen" id="s3">
+    <div class="phone">
+      <div class="brand myt">MyT Money</div>
+      <h3>Menu</h3>
+      <button onclick="go('checkBalanceMyT')">Check Balance</button>
+      <button onclick="go('mytBiller')">Pay Bills</button>
+    </div>
+  </div>
+
+  <!-- Check Balance MCB -->
+  <div class="screen" id="checkBalanceMCB">
+    <div class="phone">
+      <div class="brand mcb">MCB Juice</div>
+      <h3>Ou Balance</h3>
+      <p id="mcbBalanceDisplay"></p>
+    </div>
+    <button onclick="go('s2')">Retour Menu</button>
+  </div>
+
+  <!-- Check Balance MyT -->
+  <div class="screen" id="checkBalanceMyT">
+    <div class="phone">
+      <div class="brand myt">MyT Money</div>
+      <h3>Ou Balance</h3>
+      <p id="mytBalanceDisplay"></p>
+    </div>
+    <button onclick="go('s3')">Retour Menu</button>
+  </div>
+
+  <!-- MCB Biller Selection -->
+  <div class="screen" id="mcbBiller">
+    <div class="phone">
+      <div class="brand mcb">MCB Juice</div>
+      <h3>Swazir Biller</h3>
+      <select id="mcbBillerSelect">
+        <option value="">--Swazir--</option>
+        <option value="ceg">CEG Bill</option>
+        <option value="cwa">CWA Water Bill</option>
+        <option value="emtel">EMTEL Bill</option>
+      </select>
+    </div>
+    <button onclick="payMCBBill()">Kontinie</button>
+  </div>
+
+  <!-- MyT Biller Selection -->
+  <div class="screen" id="mytBiller">
+    <div class="phone">
+      <div class="brand myt">MyT Money</div>
+      <h3>Swazir Biller</h3>
+      <select id="mytBillerSelect">
+        <option value="">--Swazir--</option>
+        <option value="ceg">CEG Bill</option>
+        <option value="cwa">CWA Water Bill</option>
+        <option value="emtel">EMTEL Bill</option>
+      </select>
+    </div>
+    <button onclick="payMyTBill()">Kontinie</button>
+  </div>
+
+  <!-- Amount + Customer Number Entry -->
+  <div class="screen" id="amountEntry">
+    <div class="phone">
+      <div class="brand" id="amountBrand">Brand</div>
+      <h3>Antre Customer Number / Phone</h3>
+      <input type="text" id="customerNumber" placeholder="Ex: 52512345">
+      <h3>Antre Montan</h3>
+      <input type="number" id="billAmount" placeholder="Rs 0.00">
+      <p id="balanceBefore"></p>
+    </div>
+    <button onclick="confirmPayment()">Valide Paiement</button>
+  </div>
+
+  <!-- Success Payment -->
+  <div class="screen" id="successBill">
+    <h2>Bravo 🎉</h2>
+    <p>Ou finn peye bill avek sikse.</p>
+    <p id="balanceAfter"></p>
+    <button onclick="go('s1')">Rekoumans Training</button>
+  </div>
+
+</div>
+
+<script>
+  // Fake balances for training
+  let balances = { mcb: 5000, myt: 2000 };
+  let currentApp = '';
+
+  function go(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+  }
+
+  // Display balance screens
+  document.getElementById('mcbBalanceDisplay').innerText = "Rs " + balances.mcb.toFixed(2);
+  document.getElementById('mytBalanceDisplay').innerText = "Rs " + balances.myt.toFixed(2);
+
+  // MCB Bill flow
+  function payMCBBill(){
+    const bill = document.getElementById("mcbBillerSelect").value;
+    if(bill === ""){
+      alert("Swazir enn biller s'il vous plaît");
+      return;
+    }
+    currentApp = 'mcb';
+    document.getElementById("amountBrand").innerText = "MCB Juice";
+    document.getElementById("balanceBefore").innerText = "Ou Balance avan paiement: Rs " + balances.mcb.toFixed(2);
+    go('amountEntry');
+  }
+
+  // MyT Bill flow
+  function payMyTBill(){
+    const bill = document.getElementById("mytBillerSelect").value;
+    if(bill === ""){
+      alert("Swazir enn biller s'il vous plaît");
+      return;
+    }
+    currentApp = 'myt';
+    document.getElementById("amountBrand").innerText = "MyT Money";
+    document.getElementById("balanceBefore").innerText = "Ou Balance avan paiement: Rs " + balances.myt.toFixed(2);
+    go('amountEntry');
+  }
+
+  // Confirm Payment
+  function confirmPayment(){
+    const custNum = document.getElementById("customerNumber").value;
+    if(custNum.trim() === ""){
+      alert("Antre enn customer number / phone valid");
+      return;
+    }
+
+    let amt = parseFloat(document.getElementById("billAmount").value);
+    if(isNaN(amt) || amt <=0){
+      alert("Antre enn montan valid");
+      return;
+    }
+
+    if(currentApp === 'mcb'){
+      balances.mcb -= amt;
+      document.getElementById("balanceAfter").innerText = "Ou Balance apre paiement: Rs " + balances.mcb.toFixed(2);
+    } else if(currentApp === 'myt'){
+      balances.myt -= amt;
+      document.getElementById("balanceAfter").innerText = "Ou Balance apre paiement: Rs " + balances.myt.toFixed(2);
+    }
+    go('successBill');
+  }
+
+</script>
+
+</body>
+</html>
