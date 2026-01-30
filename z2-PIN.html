@@ -57,7 +57,7 @@
   <div class="screen active" id="s1">
     <h2>Antre ou PIN</h2>
     <p>Antre ou 4-chif PIN pou kont labank ou</p>
-    <input type="password" id="pinInput" maxlength="4" placeholder="1234">
+    <input type="password" id="pinInput" maxlength="4" placeholder="2719">
     <br>
     <button onclick="checkPin()">Verifie PIN</button>
   </div>
@@ -65,7 +65,7 @@
   <!-- Screen 2: Correct PIN -->
   <div class="screen" id="correctPin">
     <h2>Bravo! ✅</h2>
-    <p>Ou finn met ou PIN korek. Ou kapav kontinie avek paiement/servi application.</p>
+    <p>Ou finn met ou bon PIN. Ou kapav kontinie avek paiement/servi application.</p>
     <button onclick="restart()">Rekoumans Simulation</button>
   </div>
 
@@ -89,7 +89,7 @@
 </div>
 
 <script>
-  const correctPIN = "1234"; // Fiktif PIN pou demo
+  const correctPIN = "2711"; // Fiktif PIN pou demo
 
   function go(id) {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -118,3 +118,4 @@
 
 </body>
 </html>
+
